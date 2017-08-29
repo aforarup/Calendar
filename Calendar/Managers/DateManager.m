@@ -26,15 +26,23 @@
         formatter.dateStyle = NSDateFormatterMediumStyle;
         formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
         dateManager = [[DateManager alloc] init];
+        
+        // Create Start date
         dateManager.startDate = [formatter dateFromString:@"Jan 1, 2006"];
+        
+        // Create End date
         dateManager.endDate = [formatter dateFromString:@"Dec 31, 2026"];
     });
     return dateManager;
 }
 
 - (void)setStartDate:(NSDate *)startDate {
+    
+    // Check if the startDate does not fall on a Sunday
     NSInteger dayOfWeek = [[NSCalendar currentCalendar] component:NSCalendarUnitWeekday fromDate:startDate];
-    if(dayOfWeek > 1) {
+    if(dayOfWeek != 1) {
+        
+        // If it is not a Sunday, then find the nearest previous date which falls on Sunday
         NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
         [offsetComponents setDay:-(dayOfWeek - 1)];
         startDate = [[NSCalendar currentCalendar] dateByAddingComponents:offsetComponents toDate: startDate options:0];
@@ -42,6 +50,7 @@
     }
     _startDate = startDate;
 }
+
 
 
 - (NSUInteger)indexForDate:(NSDate *)date {
