@@ -37,18 +37,21 @@
 }
 
 - (void)setStartDate:(NSDate *)startDate {
+    NSDate *tempDate = startDate;
+    
     
     // Check if the startDate does not fall on a Sunday
     NSInteger dayOfWeek = [[NSCalendar currentCalendar] component:NSCalendarUnitWeekday fromDate:startDate];
+    
     if(dayOfWeek != 1) {
         
         // If it is not a Sunday, then find the nearest previous date which falls on Sunday
         NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
         [offsetComponents setDay:-(dayOfWeek - 1)];
-        startDate = [[NSCalendar currentCalendar] dateByAddingComponents:offsetComponents toDate: startDate options:0];
+        tempDate = [[NSCalendar currentCalendar] dateByAddingComponents:offsetComponents toDate: startDate options:0];
         
     }
-    _startDate = startDate;
+    _startDate = tempDate;
 }
 
 

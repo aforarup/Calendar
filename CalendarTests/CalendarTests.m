@@ -34,14 +34,6 @@
     XCTAssertEqual(dayOfWeek, 1, @"Date Manager doesn't start from a Sunday");
 }
 
-- (void)testTodayDateIndex {
-    DateManager *dm = [DateManager sharedInstance];
-    NSDate *startDate = dm.startDate;
-    NSDate *today = [NSDate date];
-    NSCalendar *currentCalendar= [NSCalendar currentCalendar];
-    NSDateComponents *components = [currentCalendar components:NSCalendarUnitDay fromDate:startDate toDate:today options:NSCalendarWrapComponents];
-    XCTAssertEqual([components day], [dm indexForToday], @"Failure for Today Date Index");
-}
 
 - (void)testEventForToday {
     DateManager *dm = [DateManager sharedInstance];

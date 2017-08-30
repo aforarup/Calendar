@@ -69,6 +69,7 @@
 		189847DF1F4FD010008E9C9D /* ParticipantCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 189847DE1F4FD010008E9C9D /* ParticipantCircleView.m */; };
 		189847E01F4FD010008E9C9D /* ParticipantCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 189847DE1F4FD010008E9C9D /* ParticipantCircleView.m */; };
 		189847E11F4FD010008E9C9D /* ParticipantCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 189847DE1F4FD010008E9C9D /* ParticipantCircleView.m */; };
+		189E1D3F1F56509400A22771 /* DateManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 189E1D3E1F56509400A22771 /* DateManagerTests.m */; };
 		18B78DDB1F5340FB003A9F64 /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78DDA1F5340FB003A9F64 /* UIView+Coordinates.m */; };
 		18B78DDC1F5340FB003A9F64 /* UIView+Coordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B78DDA1F5340FB003A9F64 /* UIView+Coordinates.m */; };
 		18B78DE11F535F04003A9F64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B78DE01F535F04003A9F64 /* CoreLocation.framework */; };
@@ -153,6 +154,7 @@
 		189847CC1F4BC1DC008E9C9D /* ParticipantsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipantsView.m; sourceTree = "<group>"; };
 		189847DD1F4FD010008E9C9D /* ParticipantCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantCircleView.h; sourceTree = "<group>"; };
 		189847DE1F4FD010008E9C9D /* ParticipantCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipantCircleView.m; sourceTree = "<group>"; };
+		189E1D3E1F56509400A22771 /* DateManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateManagerTests.m; sourceTree = "<group>"; };
 		18B78DD91F5340FB003A9F64 /* UIView+Coordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Coordinates.h"; sourceTree = "<group>"; };
 		18B78DDA1F5340FB003A9F64 /* UIView+Coordinates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Coordinates.m"; sourceTree = "<group>"; };
 		18B78DDE1F534131003A9F64 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			children = (
 				189847101F3EF3E7008E9C9D /* CalendarTests.m */,
 				189847121F3EF3E7008E9C9D /* Info.plist */,
+				189E1D3E1F56509400A22771 /* DateManagerTests.m */,
 			);
 			path = CalendarTests;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				189E1D3F1F56509400A22771 /* DateManagerTests.m in Sources */,
 				189847371F3F8576008E9C9D /* AgendaViewController.m in Sources */,
 				189847791F40D524008E9C9D /* AgendaTableHeaderView.m in Sources */,
 				189847A81F46BE43008E9C9D /* Calendar.m in Sources */,
