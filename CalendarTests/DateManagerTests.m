@@ -9,8 +9,9 @@
 #import <XCTest/XCTest.h>
 #import "DateManager.h"
 
+
 @interface DateManagerTests : XCTestCase
-@property (nonatomic, strong) DateManager *dm;
+@property (nonatomic, weak) DateManager *dm;
 @property (nonatomic, strong) NSCalendar *currentCalendar;
 @end
 
@@ -38,6 +39,14 @@
     NSDate *today = [NSDate date];
     NSDateComponents *components = [self.currentCalendar components:NSCalendarUnitDay fromDate:startDate toDate:today options:NSCalendarWrapComponents];
     XCTAssert(components.day == [self.dm indexForToday]);
+}
+
+- (void)testForDateIndexExceptions {
+    NSDate *earlyDate = [NSDate dateWithTimeIntervalSince1970:0];
+    XCTAssertThrows([self.dm indexForDate:earlyDate]);
+    
+    NSDate *laterDate = [NSDate dateWithTimeInterval:100000 sinceDate:self.dm.endDate];
+    XCTAssertThrows([self.dm indexForDate:laterDate]);
 }
     
 

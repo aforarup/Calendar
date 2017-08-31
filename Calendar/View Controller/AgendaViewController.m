@@ -17,6 +17,7 @@
 #import "WeatherInfoHeaderView.h"
 #import "WeatherManager.h"
 #import "Constants.h"
+#import "DateStringHelper.h"
 
 
 #define kNormalCellId @"NormalCellId"
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) EventManager *eventManager;
 @property (nonatomic, strong) WeatherManager *weatherManager;
 @property (nonatomic, assign) BOOL shouldAlertParentWhileScrolling;
+@property (nonatomic, strong) DateStringHelper *dateHelper;
 @end
 
 @implementation AgendaViewController
@@ -41,7 +43,16 @@
     [self.agendaTableView registerClass:[WeatherInfoHeaderView class] forHeaderFooterViewReuseIdentifier:kWeatherHeader];
 }
 
-- (void) initiateManagers {
+- (void) baseInit {
+    [self initManagers];
+    [self initDateHelper];
+}
+
+- (void) initDateHelper {
+    self.dateHelper = [DateStringHelper helperWithDateManager:self.dateManager];
+}
+
+- (void) initManagers {
     self.dateManager = [DateManager sharedInstance];
     self.eventManager = [EventManager sharedInstance];
     self.weatherManager = [WeatherManager sharedInstance];
@@ -51,8 +62,7 @@
     [super viewDidLoad];
     self.agendaTableView.scrollsToTop = NO;
     [self registerViews];
-    
-    [self initiateManagers];
+    [self baseInit];
     [self.agendaTableView reloadData];
     
     self.shouldAlertParentWhileScrolling = YES;
@@ -98,7 +108,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *events = [self.eventManager eventsForTheDay:[self.dateManager keyDateForIndex:section]];
+    NSArray *events = [self.eventManager eventsForTheDay:[self.dateHelper keyStringForIndex:section]];
     if(events.count == 0)
         return 1;
     return events.count;
@@ -118,12 +128,12 @@
     } else {
         header = (AgendaTableHeaderView *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:kAgendaHeader];
     }
-    [header.textLabel setText:[self.dateManager displayDateForIndex:section]];
+    [header.textLabel setText:[self.dateHelper sectionTitleStringForIndex:section]];
     return header;
 }
 
 - (Event *) eventAtIndexPath:(NSIndexPath *) indexPath {
-    NSArray *events = [self.eventManager eventsForTheDay:[self.dateManager keyDateForIndex:indexPath.section]];
+    NSArray *events = [self.eventManager eventsForTheDay:[self.dateHelper keyStringForIndex:indexPath.section]];
     if(events.count > 0 && indexPath.row < events.count) {
         return [events objectAtIndex:indexPath.row];
     }

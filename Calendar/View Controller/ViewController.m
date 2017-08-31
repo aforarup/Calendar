@@ -12,6 +12,7 @@
 #import "DateManager.h"
 #import "EventManager.h"
 #import "WeatherManager.h"
+#import "DateStringHelper.h"
 
 @interface ViewController ()
 @property (strong, nonatomic) IBOutlet CalendarViewController *calendarVC;
@@ -79,7 +80,7 @@
 
 
 - (void) notifyCalendarForDateIndex: (NSUInteger) dateIndex fromViewController:(UIViewController *)requestingViewController {
-    [self setTitle:[[DateManager sharedInstance] monthDisplayForIndex:dateIndex]];
+    [self setTitle:[[DateStringHelper helperWithDateManager:[DateManager sharedInstance]] controllerTitleStringForIndex:dateIndex]];
     if(requestingViewController != self.calendarVC)
         [self.calendarVC showDateIndex:dateIndex animated:NO];
     if(requestingViewController != self.agendaVC)

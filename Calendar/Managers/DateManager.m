@@ -58,13 +58,22 @@
 
 - (NSUInteger)indexForDate:(NSDate *)date {
     if([date compare:_endDate] ==  NSOrderedDescending ||
-       [date compare:_startDate] == NSOrderedAscending)
-        return -1;
+       [date compare:_startDate] == NSOrderedAscending) {
+        NSException* exception = [NSException
+                                    exceptionWithName:@"DateOutOfRangeException"
+                                    reason:@"Date provided is outside the range of start and end dates"
+                                    userInfo:nil];
+        @throw exception;
+    }
     return [date timeIntervalSinceDate:_startDate] / kSecondsInADay;
 }
 
-- (NSUInteger)indexForToday {
-    return [self indexForDate:[NSDate date]];
+- (NSUInteger) indexForToday {
+    @try {
+        return [self indexForDate:[NSDate date]];
+    } @catch(NSException *exception) {
+        @throw exception;
+    }
 }
 
 - (NSUInteger)totalDays {
@@ -76,81 +85,6 @@
     if([date compare:_endDate] ==  NSOrderedDescending)
         return nil;
     return date;
-}
-
-- (NSString *) shortMonthForIndex: (NSUInteger) index {
-    NSDate *date;
-    if((date = [self dateForIndex:index])) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-        [dateFormatter setDateFormat:@"MMM"];
-        return [dateFormatter stringFromDate:date];
-    }
-    return nil;
-}
-
-- (NSString *) longMonthForIndex: (NSUInteger) index {
-    NSDate *date;
-    if((date = [self dateForIndex:index])) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-        [dateFormatter setDateFormat:@"MMMM"];
-        return [dateFormatter stringFromDate:date];
-    }
-    return nil;
-}
-
-- (NSString *) monthDisplayForIndex: (NSUInteger) index {
-    NSDate *date;
-    if((date = [self dateForIndex:index])) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-        [dateFormatter setDateFormat:@"MMM y"];
-        return [dateFormatter stringFromDate:date];
-    }
-    return nil;
-}
-
-- (NSInteger) dayOfMonthForIndex: (NSUInteger) index {
-    NSDate *date;
-    if((date = [self dateForIndex:index])) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-        [dateFormatter setDateFormat:@"d"];
-        NSString *dayString = [dateFormatter stringFromDate:date];
-        return [dayString integerValue];
-    }
-    return 0;
-}
-
-- (NSString *) displayDateForIndex: (NSUInteger) index {
-    NSDate *date;
-    if((date = [self dateForIndex:index])) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-        [dateFormatter setDateFormat:@"EEEE, d MMMM y"];
-        NSString *recentDayMarker = @"";
-        NSUInteger indexForToday = [self indexForToday];
-        if(index == indexForToday - 1)
-            recentDayMarker  =@"Yesterday";
-        else if (index == indexForToday)
-            recentDayMarker = @"Today";
-        else if (index == indexForToday + 1)
-            recentDayMarker = @"Tomorrow";
-        return [NSString stringWithFormat:@"%@%@", recentDayMarker.length ? [recentDayMarker stringByAppendingString:@" • "] : @"",[dateFormatter stringFromDate:date]];
-    }
-    return nil;
-}
-
-- (NSString *) keyDateForIndex: (NSUInteger) index {
-    NSDate *date;
-    if((date = [self dateForIndex:index])) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-        [dateFormatter setDateFormat:@"d MMMM y"];
-        return [dateFormatter stringFromDate:date];
-    }
-    return nil;
 }
 
 @end

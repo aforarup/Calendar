@@ -16,5 +16,5 @@
  */
 - (NSArray *) eventsForTheDay:(NSString *)date;
 - (void) setUp;
-- (void) setUpWithCompletion:(void(^)()) onComplete;
+- (void) setUpWithCompletion:(void(^)(void)) onComplete;
 @end

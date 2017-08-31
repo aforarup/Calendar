@@ -10,6 +10,7 @@
 #import "FirstDayCell.h"
 #import "DateManager.h"
 #import "ViewController.h"
+#import "DateStringHelper.h"
 
 #define kNormalCellId @"NormalCellId"
 #define kFirstDayCellId @"FirstDayCellId"
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *calendarCollectionView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *calendarHeight;
 @property (nonatomic, strong) DateManager *dateManager;
+@property (nonatomic, strong) DateStringHelper *dateHelper;
 
 @property (nonatomic, assign) BOOL shouldBlurCells;
 @end
@@ -29,6 +31,7 @@
     [super viewDidLoad];
     [self registerCells];
     self.dateManager = [DateManager sharedInstance];
+    self.dateHelper = [DateStringHelper helperWithDateManager:self.dateManager];
     self.shouldBlurCells = NO;
     self.calendarCollectionView.scrollsToTop = NO;
     [self updateLayoutSizes];
@@ -48,11 +51,6 @@
 - (void) registerCells {
     [self.calendarCollectionView registerNib:[UINib nibWithNibName:@"NormalCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:kNormalCellId];
     [self.calendarCollectionView registerNib:[UINib nibWithNibName:@"FirstDayCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:kFirstDayCellId];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void) updateLayoutSizes {
@@ -92,22 +90,26 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_dateManager totalDays];
+    return [self.dateManager totalDays];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     NormalCell *cell;
-    NSInteger dayOfMonth = [_dateManager dayOfMonthForIndex:indexPath.item];
+    NSInteger dayOfMonth = [self.dateHelper dayOfMonthForIndex:indexPath.item];
+    
     if(dayOfMonth == 1) {
+        // If it is the first day of the month, show the short month in the cell as well
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFirstDayCellId forIndexPath:indexPath];
-        [((FirstDayCell *)cell).monthLbl setText: [_dateManager shortMonthForIndex:indexPath.item]];
+        [((FirstDayCell *)cell).monthLbl setText: [self.dateHelper shortMonthStringForIndex:indexPath.item]];
        
     } else {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:kNormalCellId forIndexPath:indexPath];
         
     }
-    
-    [cell.dateLbl setText:[@(dayOfMonth) stringValue]];
+    if(dayOfMonth > 0) {
+        // If the day is 0 (error case, dont do anything)
+        [cell.dateLbl setText:[@(dayOfMonth) stringValue]];
+    }
     
     return cell;
 }
@@ -116,39 +118,55 @@
     cell.alpha = self.shouldBlurCells ? 0.3 : 1.0;
 }
 
-#pragma mark - UICollectionViewDelegate Methods
-
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self compressCalendar:NO];
     [(ViewController *)self.parentViewController notifyCalendarForDateIndex:indexPath.item fromViewController:self];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
+    // Expand the calendar height if required
     [self compressCalendar:NO];
+    
+    // Blur cells while scrolling
     [self blurCells:YES];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    // If the scrolling is stopped by force, unblur the cells
     if(!decelerate)
         [self blurCells:NO];
+    
+    // In case the scrolling is
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    
+    // Always snap it to the beginning of a row
     
     CGPoint proposedContentOffset = *targetContentOffset;
     CGFloat offset = kCellHeight;
+    
+    // Get the content offset of the previous row
     CGFloat newOffset = lrintf(floorf(proposedContentOffset.y / offset)) * offset;
+    
+    // If the scroll will stop at half past the present row, set the offset of the next row
     if(proposedContentOffset.y - newOffset >= offset/2)
         newOffset += offset;
+    
+    // Set the new offset
     *targetContentOffset = CGPointMake(proposedContentOffset.x, newOffset);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
+    // Unblur cells after the scrollview stops decelerating
     [self blurCells:NO];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 
 

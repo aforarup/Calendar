@@ -7,7 +7,7 @@
 
 #import "Calendar.h"
 #import "Event.h"
-#import "DateManager.h"
+#import "DateStringHelper.h"
 
 
 NSString *const kCalendarRegistered = @"registered";
@@ -40,8 +40,8 @@ NSString *const kCalendarEvents = @"events";
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
         NSString *registeredDate = [self objectOrNilForKey:kCalendarRegistered fromDictionary:dict];
         if([registeredDate isEqualToString:@"today"]) {
-            DateManager *dm = [DateManager sharedInstance];
-            registeredDate = [dm keyDateForIndex:[dm indexForToday]];
+            DateStringHelper *dateHelper = [DateStringHelper helperWithDateManager:[DateManager sharedInstance]];
+            registeredDate = [dateHelper keyStringForIndex:[[DateManager sharedInstance] indexForToday]];
         }
         self.registered = registeredDate;
     NSObject *receivedEvents = [dict objectForKey:kCalendarEvents];
