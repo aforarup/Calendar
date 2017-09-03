@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		18030A931F573BFC00624FDD /* DateStringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18030A921F573BFC00624FDD /* DateStringHelper.m */; };
+		18597BAD1F586C8000C14A4D /* DateStringHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18597BAC1F586C8000C14A4D /* DateStringHelperTests.m */; };
+		18597BAF1F587F6700C14A4D /* EventManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18597BAE1F587F6700C14A4D /* EventManagerTests.m */; };
 		189846F51F3EF3E7008E9C9D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 189846F41F3EF3E7008E9C9D /* main.m */; };
 		189846F81F3EF3E7008E9C9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 189846F71F3EF3E7008E9C9D /* AppDelegate.m */; };
 		189846FE1F3EF3E7008E9C9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 189846FC1F3EF3E7008E9C9D /* Main.storyboard */; };
@@ -108,6 +110,8 @@
 /* Begin PBXFileReference section */
 		18030A911F573BFC00624FDD /* DateStringHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateStringHelper.h; sourceTree = "<group>"; };
 		18030A921F573BFC00624FDD /* DateStringHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateStringHelper.m; sourceTree = "<group>"; };
+		18597BAC1F586C8000C14A4D /* DateStringHelperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateStringHelperTests.m; sourceTree = "<group>"; };
+		18597BAE1F587F6700C14A4D /* EventManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventManagerTests.m; sourceTree = "<group>"; };
 		189846F01F3EF3E7008E9C9D /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		189846F41F3EF3E7008E9C9D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		189846F61F3EF3E7008E9C9D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -265,6 +269,8 @@
 				189847101F3EF3E7008E9C9D /* CalendarTests.m */,
 				189847121F3EF3E7008E9C9D /* Info.plist */,
 				189E1D3E1F56509400A22771 /* DateManagerTests.m */,
+				18597BAC1F586C8000C14A4D /* DateStringHelperTests.m */,
+				18597BAE1F587F6700C14A4D /* EventManagerTests.m */,
 			);
 			path = CalendarTests;
 			sourceTree = "<group>";
@@ -628,9 +634,11 @@
 				189847AB1F46BE43008E9C9D /* Event.m in Sources */,
 				18B78DED1F53FCF3003A9F64 /* CurrentStatus.m in Sources */,
 				1898472D1F3F5DE5008E9C9D /* ViewController.m in Sources */,
+				18597BAF1F587F6700C14A4D /* EventManagerTests.m in Sources */,
 				18B78DF61F542387003A9F64 /* WeatherInfoHeaderView.m in Sources */,
 				189847891F45B2BA008E9C9D /* EventManager.m in Sources */,
 				189847321F3F8566008E9C9D /* CalendarViewController.m in Sources */,
+				18597BAD1F586C8000C14A4D /* DateStringHelperTests.m in Sources */,
 				189847CE1F4BC1DC008E9C9D /* ParticipantsView.m in Sources */,
 				18B78DE51F535FEA003A9F64 /* WeatherManager.m in Sources */,
 				189847111F3EF3E7008E9C9D /* CalendarTests.m in Sources */,

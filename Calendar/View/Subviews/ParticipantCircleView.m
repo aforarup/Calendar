@@ -36,7 +36,7 @@
     // Instead of taking initials, just using first 2 characters of the name.
     [self.label setText:[[name substringToIndex:2] uppercaseString]];
     
-    
+    // Set Random Background Color
     [self setBackgroundColor:[UIColor colorWithRed:(arc4random()%255)/255.0f green:(arc4random()%255)/255.0f blue:(arc4random()%255)/255.0f alpha:1.0f]];
     
 }
@@ -49,8 +49,11 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    // Set Frame of the labels
     [self.label setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     [self.label setFont:[UIFont systemFontOfSize:ceilf((self.frame.size.height)/2)]];
+    
+    // Set Corner Radius
     self.layer.cornerRadius = MAX(self.frame.size.width, self.frame.size.width)/2;
     self.layer.masksToBounds = YES;
 }

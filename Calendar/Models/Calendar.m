@@ -35,13 +35,27 @@ NSString *const kCalendarEvents = @"events";
 {
     self = [super init];
     
+    
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
         NSString *registeredDate = [self objectOrNilForKey:kCalendarRegistered fromDictionary:dict];
+        
+        // Check if the date mentioned in the JSON is today instead of a
+        // fixed date. Done so that the calndar has few events for today
         if([registeredDate isEqualToString:@"today"]) {
-            DateStringHelper *dateHelper = [DateStringHelper helperWithDateManager:[DateManager sharedInstance]];
-            registeredDate = [dateHelper keyStringForIndex:[[DateManager sharedInstance] indexForToday]];
+            @try {
+                
+                // If there is a today date, put the today's date in dictionary key
+                DateStringHelper *dateHelper = [DateStringHelper helperWithDateManager:[DateManager sharedInstance]];
+                registeredDate = [dateHelper keyStringForIndex:[[DateManager sharedInstance] indexForToday]];
+            }
+            @catch (NSException *exception) {
+                
+                // In case of today's date is out of range,
+                // return nil for the whole block
+                return nil;
+            }
         }
         self.registered = registeredDate;
     NSObject *receivedEvents = [dict objectForKey:kCalendarEvents];

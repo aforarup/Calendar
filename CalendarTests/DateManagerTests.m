@@ -45,10 +45,10 @@
     NSDate *earlyDate = [NSDate dateWithTimeIntervalSince1970:0];
     XCTAssertThrows([self.dm indexForDate:earlyDate]);
     
-    NSDate *laterDate = [NSDate dateWithTimeInterval:100000 sinceDate:self.dm.endDate];
+    NSDate *laterDate = [NSDate dateWithTimeInterval:NSUIntegerMax sinceDate:self.dm.endDate];
     XCTAssertThrows([self.dm indexForDate:laterDate]);
-}
     
+}
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.

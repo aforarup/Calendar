@@ -46,49 +46,70 @@
     return weatherManager;
 }
 
-// Since the weather calls are made using CLLocation callbacks, we are just making a location call here
+// Since the weather calls are made using CLLocation callbacks,
+//    we are just making a location refresh call here
 - (void) refreshWeatherData {
+    
+    // If the authorization status is not known, request authorization status
     if([CLLocationManager authorizationStatus] == 0)
         [self.locationManager requestWhenInUseAuthorization];
     else
+        // request location update
         [self.locationManager requestLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     [self.locationManager stopUpdatingLocation];
     CLLocation *currentLocation = [locations lastObject];
+    
+    // Location is found. Fetch Weather Data
     [self fetchWeatherForCoordinate:currentLocation.coordinate];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error {
-    
+    // Not handling the error because the weather display feature is just add-on
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    // If the user has authorised, request location
     if(status >= kCLAuthorizationStatusAuthorizedAlways) {
         [self.locationManager requestLocation];
     }
+    // Not handling the negative cases
 }
 
 
 - (void)fetchWeatherForCoordinate:(CLLocationCoordinate2D ) coordinate{
+    
+    // If there is already a Weather Network Fetch Request running, return
     if(self.fetchWeatherTask && self.fetchWeatherTask.state == NSURLSessionTaskStateRunning)
         return;
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kWeatherUpdateUrl, kDarkSkyKey, coordinate.latitude, coordinate.longitude]];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    
     NSURLSessionDataTask *fetchWeatherTask = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(!error) {
-        NSObject *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+            
+            // Parse JSON
+            NSObject *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
             if(!error) {
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     if([jsonObject isKindOfClass:[NSDictionary class]]) {
+                        
+                        
                         Weather * weather = [Weather modelObjectWithDictionary:(NSDictionary *)jsonObject];
+                        
+                        //Save the weather data in Memory
                         self.weatherData = weather;
+                        
+                        // Alert Observers that new Weather Data is available
                         [[NSNotificationCenter defaultCenter] postNotificationName:kWeatherUpdateNotification object:self];
                     }
                 });
             }
+            // Not handling the error as wether display is just add on
         }
     }];
     self.fetchWeatherTask = fetchWeatherTask;
@@ -96,9 +117,11 @@
 }
 
 
-// Check if there is weather data refreshed in last 10 minutes
+
 - (BOOL) hasWeatherData {
-    return (self.weatherData && self.weatherData.currently && [[NSDate date] timeIntervalSince1970] - self.weatherData.currently.time <= 10 * 60);
+    
+    // Check if there is weather data is present. Weather data is valid if it was refershed in last 5 minutes
+    return (self.weatherData && self.weatherData.currently && [[NSDate date] timeIntervalSince1970] - self.weatherData.currently.time <= 5 * 60);
 }
 
 - (NSString *) temperature {

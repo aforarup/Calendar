@@ -12,9 +12,21 @@
 @interface EventManager : NSObject
 + (instancetype) sharedInstance;
 
-/* An array of Events objects for a input date. If there are no events in the specific it will return an empty array. The date passed should be in 'd MMMM y' format
+/*!
+ Events on a day. Returns 0 is no events found for the day.
+ @param dateKey key for the date
+ @return Array of events on that date
  */
-- (NSArray *) eventsForTheDay:(NSString *)date;
+- (NSArray *) eventsForTheDay:(NSString *)dateKey;
+
+/*!
+ Set up event manager
+ */
 - (void) setUp;
+
+/*!
+ Set up event manager
+ @param onComplete block to excute after set up is complete
+ */
 - (void) setUpWithCompletion:(void(^)(void)) onComplete;
 @end

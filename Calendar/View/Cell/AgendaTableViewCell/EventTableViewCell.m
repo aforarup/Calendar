@@ -56,11 +56,14 @@
 - (void) initTimeLabel {
     self.timeLbl = [[UILabel alloc] initWithFrame:CGRectZero];
     self.timeLbl.font = kTimeLblFont;
+    [self.contentView addSubview:self.timeLbl];
 }
 
 - (void) initDurationLabel {
     self.durationLbl = [[UILabel alloc] initWithFrame:CGRectZero];
     self.durationLbl.font = kDurationLblFont;
+    
+    [self.contentView addSubview:self.durationLbl];
 }
 
 - (void) initConfirmationIndicator {
@@ -68,6 +71,8 @@
     [self.confirmationIndicator.layer setCornerRadius:kConfirmationIndicatorSide/2];
     [self.confirmationIndicator.layer setMasksToBounds:YES];
     [self.confirmationIndicator setBackgroundColor:[UIColor greenColor]];
+    
+    [self.contentView addSubview:self.confirmationIndicator];
 }
 
 - (void) initAgendaLabel {
@@ -75,10 +80,12 @@
     self.agendaLbl.font = kAgendaLblFont;
     self.agendaLbl.lineBreakMode = NSLineBreakByWordWrapping;
     self.agendaLbl.numberOfLines = 0;
+    [self.contentView addSubview:self.agendaLbl];
 }
 
 - (void) initParticipantsView {
     self.participantsView = [[ParticipantsView alloc] initWithFrame:CGRectZero maxParticipantCount:5];
+    [self.contentView addSubview:self.participantsView];
 }
 
 - (void) initLocationLabel {
@@ -86,19 +93,12 @@
     self.locationLbl.font = kLocationLblFont;
     self.locationLbl.lineBreakMode = NSLineBreakByWordWrapping;
     self.locationLbl.numberOfLines = 0;
+    [self.contentView addSubview:self.locationLbl];
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        
         [self baseInit];
-        
-        [self.contentView addSubview:_timeLbl];
-        [self.contentView addSubview:_durationLbl];
-        [self.contentView addSubview:_confirmationIndicator];
-        [self.contentView addSubview:_agendaLbl];
-        [self.contentView addSubview:_participantsView];
-        [self.contentView addSubview:_locationLbl];
     }
     return self;
 }
@@ -126,6 +126,7 @@
 }
 
 - (CGRect) frameForDurationLabel {
+    // Iff All day label, hide the duration
     if(self.event.allDay)
         return CGRectZero;
     return CGRectMake(kCellPadding, self.timeLbl.bottomY + kInterElementVerticalPadding, kTimeLblWidth, kTimeLblHeight);
@@ -146,6 +147,7 @@
     return CGRectMake(startX, startY, width, height);
 }
 
+// Width for the elements after the confirmation indicator
 + (CGFloat) rightElementsWidth {
     return [UIScreen mainScreen].bounds.size.width - (kCellPadding + kTimeLblWidth + kConfirmationIndicatorMargin + kConfirmationIndicatorSide + kConfirmationIndicatorMargin + kCellPadding);
 }

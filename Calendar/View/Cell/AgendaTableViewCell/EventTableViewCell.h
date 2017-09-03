@@ -11,7 +11,17 @@
 
 @interface EventTableViewCell : UITableViewCell
 
+/*!
+ Calculates the height of the cell for a specific event
+ @param event Event for which the height is required
+ @return height for the cell
+ */
 + (CGFloat) heightForEvent:(Event *) event;
+
+/*!
+ Fill the values of the event in the cell
+ @param event Event for which the cell is rendered
+ */
 - (void) fillCellWithDataOfEvent:(Event *) event;
 
 @end

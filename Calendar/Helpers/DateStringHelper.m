@@ -60,25 +60,35 @@
         
         // If the date is between Yesterday and Tomorrow, we mention it
         NSString *recentDayMarker = @"";
-        NSUInteger indexForToday = [self.dm indexForToday];
-        if(index == indexForToday - 1)
-            recentDayMarker  =@"Yesterday";
-        else if (index == indexForToday)
-            recentDayMarker = @"Today";
-        else if (index == indexForToday + 1)
-            recentDayMarker = @"Tomorrow";
-        
-        return [NSString stringWithFormat:@"%@%@", recentDayMarker.length ? [recentDayMarker stringByAppendingString:@" • "] : @"",[self.dateFormatter stringFromDate:date]];
+        @try {
+            NSUInteger indexForToday = [self.dm indexForToday];
+            if(index == indexForToday - 1)
+                recentDayMarker  =@"Yesterday";
+            else if (index == indexForToday)
+                recentDayMarker = @"Today";
+            else if (index == indexForToday + 1)
+                recentDayMarker = @"Tomorrow";
+            
+            return [NSString stringWithFormat:@"%@%@", recentDayMarker.length ? [recentDayMarker stringByAppendingString:@" • "] : @"",[self.dateFormatter stringFromDate:date]];
+        }
+        @catch(NSException *exception) {
+            return nil;
+        }
     }
     return nil;
 }
 
 - (NSString *) keyStringForIndex: (NSUInteger) index {
+    @try {
     NSDate *date = [self.dm dateForIndex:index];
     if(date) {
         [self.dateFormatter setDateFormat:@"d MMMM y"];
         return [self.dateFormatter stringFromDate:date];
     }
     return nil;
+    }
+    @catch (NSException *exception) {
+        @throw exception;
+    }
 }
 @end

@@ -60,7 +60,7 @@
     if([date compare:_endDate] ==  NSOrderedDescending ||
        [date compare:_startDate] == NSOrderedAscending) {
         NSException* exception = [NSException
-                                    exceptionWithName:@"DateOutOfRangeException"
+                                    exceptionWithName:NSRangeException
                                     reason:@"Date provided is outside the range of start and end dates"
                                     userInfo:nil];
         @throw exception;

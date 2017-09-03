@@ -7,9 +7,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "DateManager.h"
-#import "EventManager.h"
-#import "EventDataModels.h"
 
 @interface CalendarTests : XCTestCase
 @end
@@ -26,32 +23,5 @@
     [super tearDown];
 }
 
-- (void)testToCheckDateManagerStartDateAsSunday {
-    DateManager *dm = [DateManager sharedInstance];
-    NSDate *startDate = dm.startDate;
-    NSCalendar *currentCalendar= [NSCalendar currentCalendar];
-    NSInteger dayOfWeek = [currentCalendar component:NSCalendarUnitWeekday fromDate:startDate];
-    XCTAssertEqual(dayOfWeek, 1, @"Date Manager doesn't start from a Sunday");
-}
-
-
-- (void)testEventForToday {
-    DateManager *dm = [DateManager sharedInstance];
-    EventManager *em = [EventManager sharedInstance];
-    __weak typeof(em) weakEM = em;
-    XCTestExpectation *completionExpectation = [self expectationWithDescription:@"There are 3 events for today"];
-    [em setUpWithCompletion:^{
-        NSArray *events = [weakEM eventsForTheDay:[dm keyDateForIndex:[dm indexForToday]]];
-        XCTAssertEqual([events count], 3, @"Incorrect number of Events For Today");
-        [completionExpectation fulfill];
-    }];
-    [self waitForExpectationsWithTimeout:1.0 handler:nil];
-}
-
-- (void)testEventJsonLoadTime {
-    [self measureBlock:^{
-        [[EventManager sharedInstance] setUp];
-    }];
-}
 
 @end

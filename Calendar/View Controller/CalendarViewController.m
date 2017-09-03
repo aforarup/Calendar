@@ -44,7 +44,15 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.calendarCollectionView reloadData];
-    [self showDateIndex:[self.dateManager indexForToday] animated:NO];
+    
+    @try {
+        // Show today's date
+        [self showDateIndex:[self.dateManager indexForToday] animated:NO];
+    }
+    @catch (NSException *exception) {
+        // If today's date is out of range, show the first date available
+        [self showDateIndex:0 animated:NO];
+    }
 }
 
 
