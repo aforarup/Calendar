@@ -97,8 +97,8 @@
 }
 
 // Scroll to specific date
-- (void)showDateIndex:(NSUInteger)date animated:(BOOL)animated {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:date];
+- (void)showDateIndex:(NSUInteger)dateIndex animated:(BOOL)animated {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:dateIndex];
     
     // Don't inform parent if scrolling is being done automatically
     self.shouldAlertParentWhileScrolling = NO;

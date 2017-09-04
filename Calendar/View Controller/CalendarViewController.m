@@ -82,8 +82,8 @@
     }];
 }
 
-- (void)showDateIndex:(NSUInteger)date animated:(BOOL)animated{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:date inSection:0];
+- (void)showDateIndex:(NSUInteger)dateIndex animated:(BOOL)animated{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:dateIndex inSection:0];
     [self.calendarCollectionView scrollToItemAtIndexPath: indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
     [self.calendarCollectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:animated];
 }

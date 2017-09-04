@@ -10,6 +10,9 @@
 
 @interface AgendaViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
-// Scroll the Agenda Table to specific index date at top. Index date is number of days from the start date set in Date Manager
-- (void) showDateIndex:(NSUInteger) date animated:(BOOL) animated;
+/*! Scroll the Agenda Table to specific index date at top. Index date is number of days from the start date set in Date Manager
+ @param dateIndex Index of the date from Date Manager
+ @param animated If the scroll should take place with animation
+ */
+- (void) showDateIndex:(NSUInteger) dateIndex animated:(BOOL) animated;
 @end
