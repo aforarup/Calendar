@@ -103,8 +103,9 @@
     // Don't inform parent if scrolling is being done automatically
     self.shouldAlertParentWhileScrolling = NO;
     
-    //
+    // Scroll to the date
     [self.agendaTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -260,15 +261,15 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     
-    // If the parent should be known about the scroll state of the agenda table
-    if(self.shouldAlertParentWhileScrolling) {
+    // The parent should be known about the scroll state of the agenda table
+    if(!self.shouldAlertParentWhileScrolling)
+        self.shouldAlertParentWhileScrolling = YES;
         
-        // Ask the parent to contract the calendar view
-        [(ViewController *)self.parentViewController contractCalendarView:YES];
-        
-        // Alert the parent of that it is scrolling
-        [(ViewController *)self.parentViewController viewController:self isMoving:YES];
-    }
+    // Ask the parent to contract the calendar view
+    [(ViewController *)self.parentViewController contractCalendarView:YES];
+    
+    // Alert the parent of that it is scrolling
+    [(ViewController *)self.parentViewController viewController:self isMoving:YES];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
