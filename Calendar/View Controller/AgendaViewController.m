@@ -60,7 +60,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //self.agendaTableView.scrollsToTop = NO;
     [self registerViews];
     [self baseInit];
     [self.agendaTableView reloadData];
