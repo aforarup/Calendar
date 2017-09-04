@@ -184,30 +184,68 @@
 }
 
 + (CGFloat) heightForEvent:(Event *) event {
+    
+    // Get height for elements on the left
+    CGFloat leftElementsHeight = [self leftElementsHeightForEvent:event];
+    
+    // Get height for elements on the right
+    CGFloat rightElementsHeight = [self rightElementsHeightForEvent:event];
+    
+    // Return max of height of Left & Right sides
+    return MAX(leftElementsHeight, rightElementsHeight);
+}
+
++ (CGFloat) leftElementsHeightForEvent:(Event *) event {
+    
+    // Initiate height as 0;
     CGFloat leftElementsHeight = 0;
-    CGFloat rightElementsHeight = 0;
+    
+    // Add top padding
     leftElementsHeight += kCellPadding;
+    
+    // Add Time Label Hight
     leftElementsHeight += kTimeLblHeight;
+    
+    // Duration is not shown in case of an All Day event. If the event is not an All Day, add the height of the Duration label along with padding
     if(!event.allDay)
         leftElementsHeight += (kInterElementVerticalPadding + kDurationLblHeight);
+    
+    // Add Bottom Padding height
     leftElementsHeight += kCellPadding;
     
+    return leftElementsHeight;
+}
+
++ (CGFloat) rightElementsHeightForEvent:(Event *) event {
     
+    // Initiate height as 0
+    CGFloat rightElementsHeight = 0;
+    
+    // Add top padding
     rightElementsHeight += kCellPadding;
+    
+    // Add Agenda Label
     rightElementsHeight += [self heightForLabelWithString:event.agenda labelWidth:[self rightElementsWidth] labelFont:kAgendaLblFont];
+    
+    // If there are other participants, add ParticipantsView Height along with padding
     if(event.participants.count > 0) {
         rightElementsHeight += kInterElementVerticalPadding;
         rightElementsHeight += kParticipantsViewHeight;
     }
     
+    // If the event has a location, add location height along with padding
     if(event.address.length > 0) {
         rightElementsHeight += kInterElementVerticalPadding;
         rightElementsHeight += [self heightForLabelWithString:event.address labelWidth:[self rightElementsWidth] labelFont:kLocationLblFont];
     }
+    
+    // Add bottom padding
     rightElementsHeight += kCellPadding;
     
-    return MAX(leftElementsHeight, rightElementsHeight);
+    return rightElementsHeight;
 }
+
+
 
 - (void)layoutSubviews {
     [super layoutSubviews];
