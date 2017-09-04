@@ -33,7 +33,7 @@
     self.dateManager = [DateManager sharedInstance];
     self.dateHelper = [DateStringHelper helperWithDateManager:self.dateManager];
     self.shouldBlurCells = NO;
-    self.calendarCollectionView.scrollsToTop = NO;
+    //self.calendarCollectionView.scrollsToTop = NO;
     [self updateLayoutSizes];
 }
 
@@ -169,6 +169,17 @@
     
     // Unblur cells after the scrollview stops decelerating
     [self blurCells:NO];
+}
+
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
+    
+    // Scroll to today's date if available
+    @try {
+        [(ViewController *)self.parentViewController notifyCalendarForDateIndex:[self.dateManager indexForToday] fromViewController:self];
+    }
+    @finally {
+        return NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -60,7 +60,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.agendaTableView.scrollsToTop = NO;
+    //self.agendaTableView.scrollsToTop = NO;
     [self registerViews];
     [self baseInit];
     [self.agendaTableView reloadData];
@@ -278,6 +278,16 @@
     // for next time
     if(!self.shouldAlertParentWhileScrolling)
         self.shouldAlertParentWhileScrolling = YES;
+}
+
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
+    // Scroll to today's date if available
+    @try {
+        [(ViewController *)self.parentViewController notifyCalendarForDateIndex:[self.dateManager indexForToday] fromViewController:self];
+    }
+    @finally {
+        return NO;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
